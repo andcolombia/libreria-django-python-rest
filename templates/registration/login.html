@@ -1,0 +1,52 @@
+<html>
+
+<head>
+
+  <title>Django REST framework Integration OIDC</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Django REST framework Integration OIDC</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="http://localhost:8000/api-auth/login/">Login DRF</a></li>
+        <li><a href="http://localhost:8000/admin/">Login Django administration</a></li>
+        <li><a href="http://localhost:8000/users">Example API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  {% if user.is_authenticated %}
+  <p>Current user: {{ user.email }} </p>
+  <div>
+    <hr>
+    <p>claims: {{ user.data_claims }}</p>
+    <hr>
+    <hr>
+    <p>email: {{ request.user }}</p>
+    <hr>
+    <p>cookies: {{ request.COOKIES }}</p>
+    <hr>
+
+  </div>
+
+
+  <form action="{% url 'oidc_logout' %}" method="post">{% csrf_token %}
+    <input type="submit" value="logout">
+  </form>
+  {% else %}
+  <a href="{% url 'oidc_authentication_init' %}">Login Autenticación Digital</a>
+  {% endif %}
+</body>
+
+</html>
